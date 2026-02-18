@@ -5,11 +5,9 @@ const jwt = require("jsonwebtoken");
 
 const authRouter = express.Router();
 
-
 // register API
 authRouter.post("/register", async (req, res) => {
   const { name, email, username, password, bio, profileImage } = req.body;
-
 
   // we use $or for if user exits with username or email it must return in the callback
   const isUserExits = await userModel.findOne({
@@ -34,7 +32,7 @@ authRouter.post("/register", async (req, res) => {
     profileImage,
     password: hash,
     bio,
-    name
+    name,
   });
 
   //   it must contain user data and it must be unique
@@ -51,23 +49,66 @@ authRouter.post("/register", async (req, res) => {
   res.cookie("token", token);
 
   console.log(name);
-  
+
   res.status(201).json({
     message: "User Registered Sucessfully",
     user: {
-        email: user.email,
-        username: user.username,
-        name: user.name,
-        bio: user.bio,
-        profileImage: user.profileImage 
-    }
-
-  })
+      email: user.email,
+      username: user.username,
+      name: user.name,
+      bio: user.bio,
+      profileImage: user.profileImage,
+    },
+  });
 });
 
 // login
-authRouter.post("/login", async (req,res) => {
-    
-})
+authRouter.post("/login", async (req, res) => {
+  const { username, email, password } = req.body;
 
-module.exports = authRouter
+  // if user can login with username and pass or email with pass
+  const user = await userModel.findOne({
+    $or: [
+      {
+        email: email,
+      },
+      {
+        username: username,
+      },
+    ],
+  });
+
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+
+  const hash = crypto.createHash("sha256").update(password).digest("hex");
+
+  const isPasswordValid = hash == user.password;
+
+  if (!isPasswordValid) {
+    return res.status(401).json({
+      message: "password invalid",
+    });
+  }
+
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
+
+  res.cookie("token", token)
+
+  res.status(200).json({
+    message: "User login Sucessfully",
+    user: {
+        username: user.username,
+        email: user.email,
+        bio: user.bio,
+        profileImage: user.profileImage
+    }
+  })
+});
+
+module.exports = authRouter;
