@@ -1,0 +1,73 @@
+=> Authentication 
+register (1. user ka data save karna , 2) token user ko dena 
+login 
+logout [Token blacklisting]
+[OTP based registration]
+
+
+=> post 
+create 
+can see the feed 
+like posts (collection types)
+save post 
+
+
+=> users 
+followers 
+followings 
+
+
+user = {
+    username: String,
+    email: String,
+    passowrd: String,
+    bio: String,
+    followers: Array,
+    followings: Array,
+    Profile_image: String,
+    
+}
+
+
+const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    bio: {
+        type: String,
+        default: ''
+    },
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    followings: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    profileImage: {
+        type: String,
+        default: null
+    },
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
