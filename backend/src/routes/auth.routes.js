@@ -10,7 +10,4 @@ authRouter.post("/register", authController.registerController);
 // login
 authRouter.post("/login", authController.loginController);
 
-
-
-
 module.exports = authRouter;
