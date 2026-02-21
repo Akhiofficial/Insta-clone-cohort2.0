@@ -7,24 +7,8 @@ const imagekit = new ImageKit({
 });
 
 async function createPostController(req, res) {
-  // token from cookies stoarge
-  const token = req.cookies.token;
-  let decoded = null;
 
-  // check user have token or not if not return this
-  if (!token) {
-    return res.status(401).json({
-      message: "token not provided, Unauthorized Access",
-    });
-  }
 
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET); //jwt secreate is used to verify token generated from our server or not
-  } catch (error) {
-    return res.status(401).json({
-      message: "User not authorized",
-    });
-  }
 
   // uploading file to the imagkit io
   const file = await imagekit.files.upload({
@@ -37,7 +21,7 @@ async function createPostController(req, res) {
   const post = await postModal.create({
     caption: req.body.caption,
     imgUrl: file.url,
-    user: decoded.id,
+    user: req.user.id,
   });
 
   // post craeted
@@ -48,27 +32,8 @@ async function createPostController(req, res) {
 }
 
 async function getPostController(req, res) {
-  const token = req.cookies.token;
 
-  if(!token){
-    return res.status(401).json({
-      message: "User not authorized"
-    })
-  }
-
-
-  let decoded = null;
-
-  try {
-    // it verify with sign token
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    return res.status(401).json({
-      message: "Token invalid",
-    });
-  }
-
-  const userId = decoded.id
+  const userId = req.user.id
 
   const post = await postModal.find({
     user: userId
@@ -81,34 +46,15 @@ async function getPostController(req, res) {
 
 }
 
-async function getPostDetailsController(req,res) {
+async function getPostDetailsController(req, res) {
 
-  const token = req.cookies.token
-
-  if(!token){
-    return res.status(401).json({
-      message: "User not authorized"
-    })
-  }
-
-  let decoded = null
-
-  try {
-    // decoded jwt created by server or not
-    decoded = jwt.verify(token,process.env.JWT_SECRET)
-  } catch (error) {
-    return res.status(401).json({
-      message: "User not authorized"
-    })
-  }
-
-  const userId = decoded.id
+  const userId = req.user.id
 
   const postId = req.params.postId
 
   const post = await postModal.findById(postId)
 
-  if(!post) {
+  if (!post) {
     res.status(404).json({
       message: "Post not found with the id"
     })
@@ -116,7 +62,7 @@ async function getPostDetailsController(req,res) {
 
   const isValidUser = post.user.toString() === userId
 
-  if(!isValidUser) {
+  if (!isValidUser) {
     return res.status(403).json({
       message: "forbidden Content You don't have permission to access"
     })
@@ -127,10 +73,6 @@ async function getPostDetailsController(req,res) {
     post
   })
 
-
-
-
-  
 
 }
 

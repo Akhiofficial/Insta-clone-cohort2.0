@@ -31,6 +31,12 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  following: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],  
   profileImage: {
     type: String,
     default: "https://ik.imagekit.io/akhi/profile.jpg?updatedAt=1771434115058",
