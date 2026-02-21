@@ -28,6 +28,12 @@ postRouter.get("/", identifyUser, postController.getPostController)
 postRouter.get("/details/:postId", identifyUser, postController.getPostDetailsController)
 
 
+/**
+ *@routes POST /api/posts/like/:postid
+ *@description - like a post
+*@access private 
+*/
+postRouter.post("/like/:postId", identifyUser, postController.likePostController)
 
 
 module.exports = postRouter;
