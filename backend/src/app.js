@@ -10,9 +10,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 // api
-// POST /api/auth/register
+// POST /api/auth/
 app.use("/api/auth", authRouter);
 
+// api for posts  
 app.use("/api/posts", postRouter)
+
 
 module.exports = app;
