@@ -1,6 +1,5 @@
 const postModal = require("../models/post.model");
 const { ImageKit, toFile } = require("@imagekit/nodejs");
-const jwt = require("jsonwebtoken");
 const likeModel = require("../models/like.model");
 
 const imagekit = new ImageKit({
@@ -78,14 +77,14 @@ async function getPostDetailsController(req, res) {
 }
 
 
-async function likePostController(req,res){
-   
+async function likePostController(req, res) {
+
   const username = req.user.username
   const postId = req.params.postId
 
   const post = await postModal.findById(postId)
 
-  if(!post){
+  if (!post) {
     return res.status(404).json({
       message: "Post not found with the id"
     })
@@ -97,7 +96,7 @@ async function likePostController(req,res){
     user: username
   })
 
-  if(isLiked){
+  if (isLiked) {
     return res.status(400).json({
       message: "You have already liked this post"
     })
@@ -116,12 +115,12 @@ async function likePostController(req,res){
 
 
 
-  
+
 }
 
 module.exports = {
   createPostController,
   getPostController,
   getPostDetailsController,
-  likePostController
+  likePostController,
 };

@@ -9,7 +9,7 @@ async function followUserController(req, res) {
     const followingUserName = req.params.username
 
     // you can not follow yourself
-    if(followerUserName == followingUserName){
+    if (followerUserName == followingUserName) {
         return res.status(400).json({
             message: "You can not follow yourself"
         })
@@ -20,7 +20,7 @@ async function followUserController(req, res) {
         username: followingUserName
     })
 
-    if(!isFolloweeExits){
+    if (!isFolloweeExits) {
         return res.status(404).json({
             message: `${followingUserName} is not exits`
         })
@@ -32,7 +32,7 @@ async function followUserController(req, res) {
         following: followingUserName
     })
 
-    if(isAlreadyFollowing){
+    if (isAlreadyFollowing) {
         return res.status(409).json({
             message: `${followingUserName} is already followed by you`,
             follow: isAlreadyFollowing
@@ -64,7 +64,7 @@ async function unfollowUserController(req, res) {
         following: followingUserName
     })
 
-    if(!isUserFollowing){
+    if (!isUserFollowing) {
         return res.status(400).json({
             message: `you are not following ${followingUserName}`
         })
@@ -76,13 +76,65 @@ async function unfollowUserController(req, res) {
     res.status(200).json({
         message: `You are unfollowing ${followingUserName}`
     })
-    
 
+
+}
+
+// accept follow request
+async function acceptRequestController(req, res) {
+    const followerUserName = req.params.username; // The person who sent the request
+    const followingUserName = req.user.username;  // YOU (the person accepting it)
+
+    const followRecord = await followModel.findOneAndUpdate(
+        { follower: followerUserName, following: followingUserName, status: "pending" },
+        { status: "accepted" },
+        { new: true }
+    );
+
+    // check if request is not found
+    if (!followRecord) return res.status(404).json({ message: "Request not found" });
+
+
+    // added check for you can not accept your own request
+    if (followRecord.follower === followRecord.following) {
+        return res.status(400).json({
+            message: "You can not accept your own request"
+        })
+    }
+
+    // added check for you can not accept request if already accepted
+    if (followRecord.status === "accepted") {
+        return res.status(400).json({
+            message: "You have already accepted this request"
+        })
+    }
+
+    res.status(200).json({ message: "Request accepted", followRecord });
+}
+
+
+// reject follow request
+async function rejectRequestController(req, res) {
+    const followerUserName = req.params.username;
+    const followingUserName = req.user.username;
+
+    // Rejecting usually just deletes the pending request
+    const followRecord = await followModel.findOneAndDelete({
+        follower: followerUserName,
+        following: followingUserName,
+        status: ["pending", "accepted"]
+    });
+
+    if (!followRecord) return res.status(404).json({ message: "Request not found" });
+
+    res.status(200).json({ message: "Request rejected" });
 }
 
 
 
 module.exports = {
     followUserController,
-    unfollowUserController
+    unfollowUserController,
+    acceptRequestController,
+    rejectRequestController
 }
