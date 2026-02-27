@@ -1,28 +1,36 @@
-import React from 'react'
 import '../../styles/form.scss'
 import { Link } from 'react-router'
 import { useState } from 'react'
-import axios from 'axios'
+import { useAuth } from '../hooks/useAuth'
+import { useNavigate } from 'react-router'
 
-const login = () => {
+const Login = () => {
 
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
 
-  async function handleSubmit(e) {
+  const { user, loading, handlelogin } = useAuth();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  // navigate hook
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
-    axios.post("http://localhost:3000/api/auth/login", {
-      username,
-      password
-    }, {
-      withCredentials: true
-    })
-      .then(res => {
-        console.log(res.data);
-      })
+    await handlelogin(username, password);
 
+    console.log("user loggedIn");
+
+    navigate('/')
   }
+
+  if (loading) {
+    return (<main>
+      <h1>Loading...</h1>
+    </main>)
+  }
+
 
   return (
     <div>
@@ -31,11 +39,15 @@ const login = () => {
           <h1>Login</h1>
           <form action="" onSubmit={handleSubmit}>
             <input
+              name='username'
+              id='username'
               type="text"
               placeholder='username or email'
               onInput={(e) => { setUsername(e.target.value) }}
             />
             <input
+              name='password'
+              id='password'
               type="password"
               placeholder='Password'
               onInput={(e) => { setPassword(e.target.value) }}
@@ -50,4 +62,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login

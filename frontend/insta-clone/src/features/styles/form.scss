@@ -7,42 +7,45 @@ main {
 
 
     .form-container {
-    height: fit-content;
-    min-width: 350px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 1.5rem; 
-
-    form{
+        height: fit-content;
+        min-width: 350px;
         display: flex;
+        justify-content: center;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input,
+        button {
+            padding: 0.75rem;
+            border: none;
+            outline: none;
+            border-radius: 0.7rem;
+            padding-block: 0.75rem;
+        }
+
+        button {
+            background-color: #fc42b6;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        button:active{
+            transform: scale(0.9);
+        }
+
+
     }
 
-    input, button{
-        padding: 0.75rem;
-        border: none;
-        outline: none;
-        border-radius: 0.7rem;
-        padding-block: 0.75rem;
-    }
-
-    button{
-        background-color: #fc42b6;
-        color: white;
-        cursor: pointer;
-    }
-    
-    
-    }
-
-    .toggleAuthForm{
+    .toggleAuthForm {
         text-decoration: none;
         color: #fc42b6;
         cursor: pointer;
     }
 }
-
-
-
