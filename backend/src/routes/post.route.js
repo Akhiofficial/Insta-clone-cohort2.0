@@ -15,7 +15,7 @@ postRouter.post("/", upload.single("image"), identifyUser, postController.create
 
 
 /** 
- *@routes GET /api/post
+ *@routes GET /api/posts
  *@description - get all the post created by the user who are login
  * */
 postRouter.get("/", identifyUser, postController.getPostController)
@@ -34,6 +34,15 @@ postRouter.get("/details/:postId", identifyUser, postController.getPostDetailsCo
 *@access private 
 */
 postRouter.post("/like/:postId", identifyUser, postController.likePostController)
+
+
+/**
+ * @routes GET /api/posts/feed
+ * @description - get all the post created in db 
+ * @access private 
+ */
+postRouter.get("/feed", identifyUser, postController.getFeedController)
+
 
 
 module.exports = postRouter;

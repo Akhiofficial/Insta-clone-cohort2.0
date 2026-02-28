@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(false);
 
 
-    
+
     return (
         <AuthContext.Provider value={{ user, loading, setUser, setLoading }}>
             {children}

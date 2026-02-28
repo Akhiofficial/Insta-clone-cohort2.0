@@ -1,0 +1,171 @@
+.feed-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-color: #0e0d14; // Deep dark background
+    color: #ffffff;
+    padding: 2rem 0;
+
+    .feed {
+        max-width: 470px; // Standard Instagram feed width
+        width: 100%;
+
+        .posts {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .post {
+            width: 100%;
+            background-color: #1e1c26; // Card background
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+
+            .post-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.8rem 1rem;
+
+                .user-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.8rem;
+
+                    .img-wrapper {
+                        width: 2.5rem;
+                        height: 2.5rem;
+                        border-radius: 50%;
+                        padding: 1px;
+                        background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 50%;
+                            object-fit: cover;
+                            border: 2px solid #1e1c26;
+                        }
+                    }
+
+                    .text-info {
+                        .username {
+                            font-size: 0.9rem;
+                            font-weight: 600;
+                            margin: 0;
+                        }
+
+                        .location {
+                            font-size: 0.75rem;
+                            color: #a8a8a8;
+                            margin: 0;
+                        }
+                    }
+                }
+
+                .menu-icon {
+                    cursor: pointer;
+                    color: #ffffff;
+                    opacity: 0.7;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .post-image {
+                width: 100%;
+
+                img {
+                    width: 100%;
+                    height: 70vh;
+                    display: block;
+                    object-fit: cover;
+                }
+            }
+
+            .post-actions {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.8rem 1rem 0.5rem;
+
+                .left-actions {
+                    display: flex;
+                    gap: 1rem;
+                }
+
+                .liked {
+                    color: red;
+                }
+
+                svg {
+                    cursor: pointer;
+                    transition: transform 0.2s ease;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+
+            .post-details {
+                padding: 0 1rem 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.4rem;
+
+                .likes {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    margin: 0;
+                }
+
+                .caption {
+                    font-size: 0.9rem;
+                    line-height: 1.4;
+
+                    .username {
+                        font-weight: 600;
+                        margin-right: 0.5rem;
+                    }
+
+                    .hashtag {
+                        color: #ff0080; // Vibrant pink for hashtags
+                        cursor: pointer;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+
+                .view-comments {
+                    font-size: 0.85rem;
+                    color: #a8a8a8;
+                    cursor: pointer;
+                    margin: 0;
+                }
+
+                .time {
+                    font-size: 0.7rem;
+                    color: #a8a8a8;
+                    text-transform: uppercase;
+                    margin-top: 0.2rem;
+                }
+            }
+
+        }
+    }
+
+
+}

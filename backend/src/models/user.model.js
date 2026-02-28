@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true,'password is required' ],
+    select: false
   },
   bio: {
     type: String,
@@ -28,14 +29,14 @@ const userSchema = new mongoose.Schema({
   followers: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "users",
     },
   ],
   following: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+      ref: "users",
+    },  
   ],  
   profileImage: {
     type: String,
@@ -44,8 +45,8 @@ const userSchema = new mongoose.Schema({
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Post",
-    },
+      ref: "posts"
+    }
   ],
   createdAt: {
     type: Date,
