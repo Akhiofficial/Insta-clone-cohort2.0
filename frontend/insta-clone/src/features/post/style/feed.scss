@@ -9,7 +9,7 @@
     flex-direction: column;
 
     .feed {
-        max-width: 470px; 
+        max-width: 470px;
         width: 100%;
 
         .posts {
@@ -105,9 +105,18 @@
                     gap: 1rem;
                 }
 
-                .liked {
-                    color: red;
+                .saved {
+                    polygon {
+                        fill: white !important;
+                        stroke: white !important;
+                    }
                 }
+
+                .liked {
+                    fill: red !important;
+                }
+
+
 
                 svg {
                     cursor: pointer;

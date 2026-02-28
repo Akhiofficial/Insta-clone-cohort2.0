@@ -48,6 +48,12 @@ const userSchema = new mongoose.Schema({
       ref: "posts"
     }
   ],
+  savedPosts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "posts"
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

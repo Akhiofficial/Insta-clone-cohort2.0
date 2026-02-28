@@ -1,6 +1,7 @@
 const postModal = require("../models/post.model");
 const { ImageKit, toFile } = require("@imagekit/nodejs");
 const likeModel = require("../models/like.model");
+const userModel = require("../models/user.model");
 
 const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
@@ -163,6 +164,11 @@ async function getFeedController(req, res) {
 
       post.isLiked = !!isLiked
 
+      const currentUser = await userModel.findById(user.id);
+      const isSaved = currentUser.savedPosts.includes(post._id);
+
+      post.isSaved = isSaved
+
       return post
     }))
 
@@ -175,11 +181,66 @@ async function getFeedController(req, res) {
 
 }
 
+
+async function savePostController(req, res) {
+  const postId = req.params.postId; // <--- You need this back!
+
+  const user = await userModel.findByIdAndUpdate(
+    req.user.id,
+    { $addToSet: { savedPosts: postId } },
+    { new: true }
+  );
+
+  res.status(200).json({ message: "Post saved", user });
+}
+
+
+
+async function unsavePostController(req, res) {
+
+  const postId = req.params.postId
+
+  const post = await postModal.findById(postId)
+
+  if (!post) {
+    return res.status(404).json({
+      message: "Post not found with the id"
+    })
+  }
+
+  // check if user already saved the post
+  const isSaved = await userModel.findOne({
+    _id: req.user.id,
+    savedPosts: postId
+  })
+
+  if (!isSaved) {
+    return res.status(400).json({
+      message: "You have not saved this post"
+    })
+  }
+
+  const unsave = await userModel.findByIdAndUpdate(
+    req.user.id,
+    { $pull: { savedPosts: postId } },
+    { new: true }
+  )
+
+  res.status(201).json({
+    message: "Post unsaved sucessfully",
+    unsave
+  })
+
+}
+
+
 module.exports = {
   createPostController,
   getPostController,
   getPostDetailsController,
   likePostController,
   getFeedController,
-  unlikePostController
+  unlikePostController,
+  savePostController,
+  unsavePostController
 };

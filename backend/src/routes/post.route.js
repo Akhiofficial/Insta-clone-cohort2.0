@@ -14,6 +14,7 @@ const { identifyUser } = require("../middlewears/auth.middlewear");
 postRouter.post("/", upload.single("image"), identifyUser, postController.createPostController);
 
 
+
 /** 
  *@routes GET /api/posts
  *@description - get all the post created by the user who are login
@@ -51,6 +52,19 @@ postRouter.delete("/unlike/:postId", identifyUser, postController.unlikePostCont
  */
 postRouter.get("/feed", identifyUser, postController.getFeedController)
 
+/**
+ * @routes POST /api/posts/save/:postid
+ * @description - save a post
+ * @access private 
+ */
+postRouter.post("/save/:postId", identifyUser, postController.savePostController)
 
+
+/**
+ * @routes DELETE /api/posts/unsave/:postid
+ * @description - unsave a post
+ * @access private 
+ */
+postRouter.delete("/unsave/:postId", identifyUser, postController.unsavePostController)
 
 module.exports = postRouter;

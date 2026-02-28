@@ -4,6 +4,8 @@ import { PostContext } from "../post.context";
 import { createPost } from "../services/post.api";
 import { likePost } from "../services/post.api";
 import { unlikePost } from "../services/post.api";
+import { savePost } from "../services/post.api";
+import { unsavePost } from "../services/post.api";
 
 export const usePost = () => {
 
@@ -42,6 +44,20 @@ export const usePost = () => {
         await handleGetFeed();
     }
 
+
+    const handleSavePost = async (postId) => {
+        const data = await savePost(postId);
+        setFeed(data.posts);
+        await handleGetFeed();
+    }
+
+    const handleUnsavePost = async (postId) => {
+        const data = await unsavePost(postId);
+        setFeed(data.posts);
+        await handleGetFeed();
+    }
+
+
     return {
         loading,
         feed,
@@ -49,6 +65,8 @@ export const usePost = () => {
         handleGetFeed,
         handleCreatePost,
         handleLikePost,
-        handleUnlikePost
+        handleUnlikePost,
+        handleSavePost,
+        handleUnsavePost
     }
 }

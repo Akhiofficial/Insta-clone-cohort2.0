@@ -125,7 +125,8 @@ async function getMeController (req, res) {
       username: user.username,
       email: user.email,
       bio: user.bio,
-      profileImage: user.profileImage
+      profileImage: user.profileImage,
+      isSaved: user.savedPosts
     }
   })
 }
