@@ -37,6 +37,14 @@ postRouter.post("/like/:postId", identifyUser, postController.likePostController
 
 
 /**
+ * @routes DELETE /api/posts/unlike/:postid
+ * @description - unlike a post
+ * @access private 
+ */
+postRouter.delete("/unlike/:postId", identifyUser, postController.unlikePostController)
+
+
+/**
  * @routes GET /api/posts/feed
  * @description - get all the post created in db 
  * @access private 
