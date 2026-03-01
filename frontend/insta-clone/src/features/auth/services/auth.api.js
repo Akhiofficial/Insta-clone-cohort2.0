@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api/auth",
+  baseURL: import.meta.env.MODE === "development" ? "http://localhost:3000/api/auth" : "/api/auth",
   withCredentials: true,
 });
 
@@ -36,7 +36,7 @@ export async function login(username, password) {
   }
 }
 
-export async function logout(){
+export async function logout() {
   try {
     const response = await api.post("/logout");
     return response.data;
