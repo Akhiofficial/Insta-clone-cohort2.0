@@ -1,0 +1,349 @@
+@import "../../shared/global.scss";
+
+.profile-page {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 300px 1fr var(--right-sidebar-width);
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+
+    // Network Sub-Nav
+    .network-panel {
+        border-right: 1px solid var(--border-color);
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+        }
+
+        .network-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .network-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1rem;
+                border-radius: 1rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                color: var(--text-primary);
+
+                .item-content {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                }
+
+                .badge {
+                    font-size: 0.8rem;
+                    color: var(--text-secondary);
+                }
+
+                &:hover {
+                    background-color: var(--glass-bg);
+                }
+
+                &.active {
+                    background: linear-gradient(90deg, var(--accent-primary), #ff69b4);
+                    font-weight: 600;
+
+                    .badge {
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+
+    // Main Content - Followers List
+    .followers-container {
+        padding: 3rem 2.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        border-right: 1px solid var(--border-color);
+        min-width: 0; // Prevent grid blowout
+        background-color: var(--bg-primary);
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap; // Allow wrapping on very small screens
+            gap: 1rem;
+
+            h2 {
+                font-size: 1.8rem;
+                font-weight: 800;
+                letter-spacing: -0.5px;
+                white-space: nowrap;
+            }
+
+            .sort-by {
+                font-size: 0.95rem;
+                color: var(--text-secondary);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                cursor: pointer;
+                background-color: var(--bg-secondary);
+                padding: 0.5rem 1rem;
+                border-radius: 12px;
+                border: 1px solid var(--border-color);
+                transition: all 0.2s ease;
+
+                span {
+                    color: var(--text-primary);
+                    font-weight: 600;
+                }
+
+                &:hover {
+                    border-color: var(--accent-primary);
+                    background-color: var(--glass-bg);
+                }
+            }
+        }
+
+        .search-bar {
+            position: relative;
+            width: 100%;
+
+            input {
+                width: 100%;
+                background-color: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                padding: 1.2rem 1.2rem 1.2rem 3.8rem;
+                border-radius: 18px;
+                color: var(--text-primary);
+                font-size: 1.05rem;
+                outline: none;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+                &::placeholder {
+                    color: var(--text-secondary);
+                }
+
+                &:focus {
+                    border-color: var(--accent-primary);
+                    background-color: var(--bg-primary);
+                    box-shadow: 0 0 0 4px rgba(255, 0, 127, 0.1);
+                }
+            }
+
+            .search-icon {
+                position: absolute;
+                left: 1.5rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--text-secondary);
+                transition: color 0.3s ease;
+            }
+
+            input:focus+.search-icon {
+                color: var(--accent-primary);
+            }
+        }
+
+        .followers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+
+            .user-card {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1.5rem;
+                background-color: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: 20px;
+                transition: all 0.3s ease;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    background-color: var(--glass-bg);
+                }
+
+                .user-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+
+                    .avatar {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        border: 2px solid var(--accent-primary);
+                    }
+
+                    .details {
+                        display: flex;
+                        flex-direction: column;
+
+                        .name {
+                            font-weight: 700;
+                            font-size: 1rem;
+                        }
+
+                        .username {
+                            font-size: 0.85rem;
+                            color: var(--text-secondary);
+                        }
+
+                        .follows-you {
+                            font-size: 0.75rem;
+                            color: var(--accent-primary);
+                            margin-top: 0.2rem;
+                        }
+                    }
+                }
+
+                .action-btn {
+                    padding: 0.6rem 1.2rem;
+                    border-radius: 1.5rem;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    border: 1px solid var(--border-color);
+                    background-color: var(--bg-primary);
+                    color: var(--text-primary);
+
+                    &.primary {
+                        background: linear-gradient(90deg, var(--accent-primary), #ff69b4);
+                        border: none;
+                        color: white;
+                    }
+
+                    &:hover {
+                        opacity: 0.9;
+                    }
+                }
+            }
+        }
+    }
+
+    // Right Sidebar
+    .profile-sidebar {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+
+        .section {
+            h3 {
+                font-size: 1.1rem;
+                font-weight: 600;
+                margin-bottom: 1.5rem;
+                color: var(--text-secondary);
+            }
+
+            .trends-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+
+                .trend-tag {
+                    padding: 0.5rem 1rem;
+                    background-color: var(--bg-secondary);
+                    border: 1px solid var(--border-color);
+                    border-radius: 0.5rem;
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        border-color: var(--accent-primary);
+                        color: var(--accent-primary);
+                    }
+                }
+            }
+
+            .suggestions-list {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+
+                .suggestion-card {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    .user-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+
+                        .avatar {
+                            width: 35px;
+                            height: 35px;
+                            border-radius: 50%;
+                            object-fit: cover;
+                        }
+
+                        .username {
+                            font-size: 0.9rem;
+                            font-weight: 600;
+                        }
+                    }
+
+                    .follow-link {
+                        font-size: 0.8rem;
+                        font-weight: 700;
+                        color: var(--accent-primary);
+                        cursor: pointer;
+                        text-transform: uppercase;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+
+        .footer-links {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            .links {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                font-size: 0.75rem;
+                color: var(--text-secondary);
+
+                span {
+                    cursor: pointer;
+
+                    &:hover {
+                        color: var(--text-primary);
+                    }
+                }
+            }
+
+            .copyright {
+                font-size: 0.75rem;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+        }
+    }
+}

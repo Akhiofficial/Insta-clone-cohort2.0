@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../style/rightSidebar.scss';
+import { useAuth } from '../../auth/hooks/useAuth';
+import { useUser } from '../hooks/useUser';
 
 const RightSidebar = () => {
-    const suggestions = [
-        { id: 1, username: 'creative_soul', img: 'https://i.pravatar.cc/150?u=creative', detail: 'Followed by alex_design + 4 others' },
-        { id: 2, username: 'pixel_perfect', img: 'https://i.pravatar.cc/150?u=pixel', detail: 'New to InstaNext' },
-        { id: 3, username: 'motion_guru', img: 'https://i.pravatar.cc/150?u=motion', detail: 'Followed by sophie_ai' },
-    ];
+    const { user } = useAuth();
+    const { allUsers, handleFetchAllUsers, handleFollowUser } = useUser();
+
+    useEffect(() => {
+        handleFetchAllUsers();
+    }, []);
 
     const trends = ['#Web3UI', '#Glassmorphism', '#GenerativeAI', '#Tokyovibes'];
 
@@ -14,10 +17,10 @@ const RightSidebar = () => {
         <aside className="right-sidebar">
             <div className="user-profile-summary">
                 <div className="user-info">
-                    <img src="https://i.pravatar.cc/150?u=joshua" alt="profile" />
+                    <img src={user?.profileImage || "https://i.pravatar.cc/150?u=joshua"} alt="profile" />
                     <div className="text text-info">
-                        <p className="username">joshua_next</p>
-                        <p className="full-name">Joshua Miller</p>
+                        <p className="username">{user?.username || "guest"}</p>
+                        <p className="full-name">{user?.name || "Guest User"}</p>
                     </div>
                 </div>
                 <button className="switch-btn">SWITCH</button>
@@ -29,18 +32,40 @@ const RightSidebar = () => {
                     <button className="see-all">See All</button>
                 </div>
                 <div className="suggestion-list">
-                    {suggestions.map(s => (
-                        <div key={s.id} className="suggestion-item">
-                            <div className="info">
-                                <img src={s.img} alt={s.username} />
-                                <div className="text">
-                                    <p className="username">{s.username}</p>
-                                    <p className="detail">{s.detail}</p>
+                    {allUsers && allUsers.length > 0 ? (
+                        allUsers.slice(0, 5).map(u => (
+                            <div key={u.username} className="suggestion-item">
+                                <div className="info">
+                                    <img src={u.profileImage} alt={u.username} />
+                                    <div className="text">
+                                        <p className="username">{u.username}</p>
+                                        <p className="detail">{u.name}</p>
+                                    </div>
                                 </div>
+                                <button
+                                    className={`follow-btn ${u.isFollowing ? 'following' : ''}`}
+                                    onClick={() => {
+                                        if (u.isFollowing) {
+                                            if (u.followStatus === 'pending') return; // Cannot unfollow if pending (or maybe we can? let's stick to accepted)
+                                            handleUnfollowUser(u.username);
+                                        } else {
+                                            handleFollowUser(u.username);
+                                        }
+                                    }}
+                                    style={{
+                                        cursor: (u.isFollowing && u.followStatus === 'pending') ? 'default' : 'pointer',
+                                        opacity: (u.isFollowing && u.followStatus === 'pending') ? 0.7 : 1
+                                    }}
+                                >
+                                    {u.isFollowing ? (
+                                        u.followStatus === 'pending' ? 'REQUESTED' : 'UNFOLLOW'
+                                    ) : 'FOLLOW'}
+                                </button>
                             </div>
-                            <button className="follow-btn">FOLLOW</button>
-                        </div>
-                    ))}
+                        ))
+                    ) : (
+                        <p className="empty-msg">No other users found</p>
+                    )}
                 </div>
             </div>
 

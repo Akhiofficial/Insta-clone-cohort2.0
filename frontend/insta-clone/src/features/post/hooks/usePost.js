@@ -14,21 +14,36 @@ export const usePost = () => {
     if (!context) {
         throw new Error("usePost must be used within PostContextProvider");
     }
-    const { post, setPost, loading, setLoading, feed, setFeed } = context;
+    const {
+        post, setPost,
+        feedLoading, setFeedLoading,
+        postLoading, setPostLoading,
+        feed, setFeed
+    } = context;
 
     const handleGetFeed = async () => {
-        setLoading(true);
-        const data = await getFeed();
-        setFeed(data.posts);
-        setLoading(false);
+        setFeedLoading(true);
+        try {
+            const data = await getFeed();
+            setFeed(data.posts);
+        } catch (err) {
+            console.error("Failed to fetch feed", err);
+        } finally {
+            setFeedLoading(false);
+        }
     }
 
 
     const handleCreatePost = async (imageFile, caption) => {
-        setLoading(true);
-        const data = await createPost(imageFile, caption);
-        setFeed([data.post, ...feed]);
-        setLoading(false);
+        setPostLoading(true);
+        try {
+            const data = await createPost(imageFile, caption);
+            setFeed([data.post, ...feed]);
+        } catch (err) {
+            console.error("Failed to create post", err);
+        } finally {
+            setPostLoading(false);
+        }
     }
 
 
@@ -59,7 +74,8 @@ export const usePost = () => {
 
 
     return {
-        loading,
+        feedLoading,
+        postLoading,
         feed,
         post,
         handleGetFeed,

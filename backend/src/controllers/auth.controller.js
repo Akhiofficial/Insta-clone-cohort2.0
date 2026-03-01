@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs')
 
 
 // register controllers
-async function registerController (req, res) {
+async function registerController(req, res) {
   const { name, email, username, password, bio, profileImage } = req.body;
 
   // we use $or for if user exits with username or email it must return in the callback
@@ -63,7 +63,7 @@ async function registerController (req, res) {
 
 
 // login controller 
-async  function loginController (req,res) {
+async function loginController(req, res) {
   const { username, email, password } = req.body;
 
   // if user can login with username and pass or email with pass
@@ -102,19 +102,26 @@ async  function loginController (req,res) {
   res.status(200).json({
     message: "User login Sucessfully",
     user: {
-        username: user.username,
-        email: user.email,
-        bio: user.bio,
-        profileImage: user.profileImage
+      username: user.username,
+      name: user.name,
+      email: user.email,
+      bio: user.bio,
+      profileImage: user.profileImage
     }
   })
 
 }
 
+async function logoutController(req, res) {
+  res.clearCookie("token");
+  res.status(200).json({
+    message: "User logged out successfully",
+  });
+}
 
 // get-me 
-async function getMeController (req, res) {
-  
+async function getMeController(req, res) {
+
   const userId = req.user.id
 
   const user = await userModel.findById(userId)
@@ -123,12 +130,15 @@ async function getMeController (req, res) {
     message: "User data",
     user: {
       username: user.username,
+      name: user.name,
       email: user.email,
       bio: user.bio,
       profileImage: user.profileImage,
-      isSaved: user.savedPosts
+      isSaved: user.savedPosts,
+      followersCount: user.followers?.length || 0,
+      followingCount: user.following?.length || 0
     }
   })
 }
 
-module.exports = {registerController , loginController, getMeController}
+module.exports = { registerController, loginController, getMeController, logoutController }

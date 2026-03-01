@@ -6,6 +6,7 @@ const upload = multer({ storage: multer.memoryStorage()})
 // auth middlewear to identify user who are requesting
 const { identifyUser } = require("../middlewears/auth.middlewear");
 
+
 /** 
  *@routes  POST /api/posts/ [protected] only authorized user with valid token
  *@description  req.body = {caption , img-file }

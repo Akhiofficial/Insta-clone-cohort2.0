@@ -28,11 +28,38 @@ userRouter.post('/accept/:username', identifyUser, userController.acceptRequestC
 
 
 /**
+ * @route GET /api/users/followers/:username
+ * @Description get followers list
+ * @access private
+ */
+userRouter.get("/followers/:username", identifyUser, userController.getFollowersController)
+
+/**
+ * @route GET /api/users/following/:username
+ * @Description get following list
+ * @access private
+ */
+userRouter.get("/following/:username", identifyUser, userController.getFollowingController)
+
+/**
+ * @route GET /api/users/requests
+ * @Description get pending follow requests
+ * @access private
+ */
+userRouter.get("/requests", identifyUser, userController.getPendingRequestsController)
+
+/**
  * @route POST /api/users/reject/:username
  * @Description reject a follow request
  * @access private 
  */
 userRouter.post('/reject/:username', identifyUser, userController.rejectRequestController)
 
+/**
+ * @route GET /api/users/all
+ * @Description get all users except the currently logged in user
+ * @access private
+ */
+userRouter.get("/all", identifyUser, userController.getAllUsersController)
 
 module.exports = userRouter

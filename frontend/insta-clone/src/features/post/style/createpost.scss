@@ -1,11 +1,163 @@
-.post-image-label{
-    background-color: rgba(94, 90, 90, 0.834);
-    padding: 1rem;
-    border-radius: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+.create-post-page {
+    min-height: calc(100vh - 80px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: radial-gradient(circle at top right, #1a082e 0%, #000000 80%);
 
-    &:hover{
-        background-color: rgba(94, 90, 90, 1);
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 500px;
+        background: rgba(15, 15, 15, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 28px;
+        padding: 2.5rem;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        @media (max-width: 480px) {
+            padding: 1.5rem;
+            border-radius: 20px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: white;
+            text-align: center;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+
+            .upload-zone {
+                width: 100%;
+                aspect-ratio: 4/3;
+                background: rgba(255, 255, 255, 0.03);
+                border: 2px dashed rgba(255, 255, 255, 0.1);
+                border-radius: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                overflow: hidden;
+                position: relative;
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-color: rgba(255, 0, 122, 0.3);
+                }
+
+                .preview-image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .upload-placeholder {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                    color: rgba(255, 255, 255, 0.4);
+
+                    svg {
+                        color: #ff007a;
+                    }
+
+                    span {
+                        font-weight: 600;
+                        font-size: 0.95rem;
+                    }
+                }
+
+                .remove-image {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    background: rgba(0, 0, 0, 0.6);
+                    color: white;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    backdrop-filter: blur(10px);
+                    z-index: 10;
+                    cursor: pointer;
+                    transition: all 0.2s;
+
+                    &:hover {
+                        background: #ff007a;
+                        transform: scale(1.1);
+                    }
+                }
+            }
+
+            .input-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                input[type="text"],
+                textarea {
+                    width: 100%;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.08);
+                    padding: 1.1rem 1.25rem;
+                    border-radius: 18px;
+                    color: white;
+                    font-size: 1rem;
+                    font-family: inherit;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+                    &:focus {
+                        outline: none;
+                        background: rgba(255, 255, 255, 0.08);
+                        border-color: rgba(255, 255, 255, 0.2);
+                        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+                    }
+
+                    &::placeholder {
+                        color: rgba(255, 255, 255, 0.3);
+                    }
+                }
+
+                textarea {
+                    min-height: 100px;
+                    resize: none;
+                }
+            }
+        }
+    }
+}
+
+.loading-container {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        width: 100px;
+        height: 100px;
+        filter: invert(1) brightness(2); // If the gif is dark, adjust for dark theme
     }
 }

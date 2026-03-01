@@ -1,11 +1,13 @@
 import React from 'react'
 import "../nav.scss"
 import { useNavigate, useLocation } from 'react-router'
-import { Home, Search, Compass, MessageCircle, Heart, PlusSquare, User, MoreHorizontal } from 'lucide-react'
+import { Home, Search, Compass, MessageCircle, Heart, PlusSquare, User, MoreHorizontal, LogOut } from 'lucide-react'
+import { useAuth } from '../../auth/hooks/useAuth'
 
 const Nav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { handleLogout } = useAuth();
 
   const navItems = [
     { name: 'Home', icon: <Home size={24} />, path: '/' },
@@ -16,6 +18,15 @@ const Nav = () => {
     { name: 'Create', icon: <PlusSquare size={24} />, path: '/create-post' },
     { name: 'Profile', icon: <User size={24} />, path: '/profile' },
   ];
+
+  const onLogout = async () => {
+    try {
+      await handleLogout();
+      navigate('/login');
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
 
   return (
     <nav className='side-nav'>
@@ -43,6 +54,10 @@ const Nav = () => {
       </div>
 
       <div className="nav-bottom">
+        <div className="nav-item logout-btn" onClick={onLogout}>
+          <LogOut size={24} />
+          <span className="item-name">Logout</span>
+        </div>
         <div className="nav-item">
           <MoreHorizontal size={24} />
           <span className="item-name">More</span>

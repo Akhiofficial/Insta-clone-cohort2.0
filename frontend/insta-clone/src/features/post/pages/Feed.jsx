@@ -5,17 +5,18 @@ import { usePost } from '../hooks/usePost'
 import { useEffect } from 'react'
 import Nav from '../../shared/components/Nav'
 import RightSidebar from '../components/RightSidebar'
+import loading from '../../../assets/Loading.gif';
 
 const Feed = () => {
 
-  const { feed, handleGetFeed, loading, handleLikePost, handleUnlikePost, handleSavePost, handleUnsavePost } = usePost();
+  const { feed, handleGetFeed, feedLoading, handleLikePost, handleUnlikePost, handleSavePost, handleUnsavePost } = usePost();
 
   useEffect(() => {
     handleGetFeed();
   }, []);
 
-  if (loading || !feed) {
-    return <main className='loading-screen'><h1>Feed is loading...</h1></main>
+  if (feedLoading || !feed) {
+    return <main className='loading-screen'><img src={loading} alt="loading" /></main>
   }
 
   return (
@@ -30,7 +31,7 @@ const Feed = () => {
                 key={post._id}
                 post={post}
                 user={post.user}
-                loading={loading}
+                loading={feedLoading}
                 handleLikePost={handleLikePost}
                 handleUnlikePost={handleUnlikePost}
                 handleSavePost={handleSavePost}
