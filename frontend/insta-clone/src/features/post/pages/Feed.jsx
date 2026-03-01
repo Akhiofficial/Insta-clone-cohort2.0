@@ -1,9 +1,10 @@
 import React from 'react'
 import "../style/feed.scss"
-import Post from '../components/post'
-import { usePost } from '../hook/usePost'
+import Post from '../components/Post'
+import { usePost } from '../hooks/usePost'
 import { useEffect } from 'react'
-import Nav from '../../shared/components/Nav' 
+import Nav from '../../shared/components/Nav'
+import RightSidebar from '../components/RightSidebar'
 
 const Feed = () => {
 
@@ -13,36 +14,36 @@ const Feed = () => {
     handleGetFeed();
   }, []);
 
-  if(loading || !feed ){
-    return <main><h1>Feed is loading</h1></main>
+  if (loading || !feed) {
+    return <main className='loading-screen'><h1>Feed is loading...</h1></main>
   }
-
-  
 
   return (
     <main className='feed-page'>
       <Nav />
-      <div className="feed">
-        <div className="posts">
-          {feed.map((post) => (
-          <Post 
-            key={post._id} 
-            post={post} 
-            user={post.user} 
-            loading={loading}
-            handleLikePost={handleLikePost}
-            handleUnlikePost={handleUnlikePost}
-            handleSavePost={handleSavePost}
-            handleUnsavePost={handleUnsavePost}
-          />
-        ))}
-          
+
+      <div className="main-content">
+        <div className="feed">
+          <div className="posts">
+            {feed.map((post) => (
+              <Post
+                key={post._id}
+                post={post}
+                user={post.user}
+                loading={loading}
+                handleLikePost={handleLikePost}
+                handleUnlikePost={handleUnlikePost}
+                handleSavePost={handleSavePost}
+                handleUnsavePost={handleUnsavePost}
+              />
+            ))}
+          </div>
         </div>
       </div>
+
+      <RightSidebar />
     </main>
   )
-
-
 }
 
 export default Feed

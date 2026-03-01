@@ -1,6 +1,6 @@
 import { getFeed } from "../services/post.api";
 import { useContext } from "react";
-import { PostContext } from "../post.context";
+import { PostContext } from "../store/post.context";
 import { createPost } from "../services/post.api";
 import { likePost } from "../services/post.api";
 import { unlikePost } from "../services/post.api";
@@ -11,7 +11,7 @@ export const usePost = () => {
 
     const context = useContext(PostContext);
 
-    if(!context){
+    if (!context) {
         throw new Error("usePost must be used within PostContextProvider");
     }
     const { post, setPost, loading, setLoading, feed, setFeed } = context;

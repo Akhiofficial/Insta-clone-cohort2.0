@@ -1,8 +1,8 @@
 import { router } from './app.routes.jsx'
 import './features/shared/global.scss'
-import { AuthProvider } from './features/auth/auth.context.jsx'
+import { AuthProvider } from './features/auth/store/auth.context.jsx'
 import { RouterProvider } from 'react-router'
-import { PostContextProvider } from './features/post/post.context.jsx'
+import { PostContextProvider } from './features/post/store/post.context.jsx'
 
 
 const App = () => {

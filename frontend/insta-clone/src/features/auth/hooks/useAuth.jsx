@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { AuthContext } from "../auth.context.jsx";
-import { login , register , getMe } from "../services/auth.api.js";
+import { AuthContext } from "../store/auth.context.jsx";
+import { login, register, getMe } from "../services/auth.api.js";
 
 
 export const useAuth = () => {
@@ -47,5 +47,5 @@ export const useAuth = () => {
         }
     }
 
-    return { user, loading, handlelogin, handleRegister , handleGetMe };
+    return { user, loading, handlelogin, handleRegister, handleGetMe };
 }

@@ -88,7 +88,7 @@ async function acceptRequestController(req, res) {
     const followRecord = await followModel.findOneAndUpdate(
         { follower: followerUserName, following: followingUserName, status: "pending" },
         { status: "accepted" },
-        { new: true }
+        { returnDocument: 'after' }
     );
 
     // check if request is not found

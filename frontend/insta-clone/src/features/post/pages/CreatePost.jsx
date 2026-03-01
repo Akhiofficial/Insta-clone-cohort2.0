@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import "../style/createpost.scss";
-import { usePost } from '../hook/usePost';
+import { usePost } from '../hooks/usePost';
 
 import { useNavigate } from 'react-router';
 
@@ -28,7 +28,7 @@ const CreatePost = () => {
 
     useEffect(() => {
         handleGetFeed();
-    }, []); 
+    }, []);
 
     if (loading) {
         return <main><h1>Loading...</h1></main>
