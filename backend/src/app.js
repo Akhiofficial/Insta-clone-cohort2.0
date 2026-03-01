@@ -30,7 +30,7 @@ app.use("/api/posts", postRouter)
 app.use("/api/users", userRouter)
 
 if (process.env.NODE_ENV === "production") {
-    const frontendDistPath = path.join(__dirname, "../../../frontend/insta-clone/dist");
+    const frontendDistPath = path.join(__dirname, "../../frontend/insta-clone/dist");
     app.use(express.static(frontendDistPath));
 
     app.get("*", (req, res) => {
